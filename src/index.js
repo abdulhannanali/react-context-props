@@ -1,7 +1,9 @@
+// @flow
+
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-export const getContextualizer = (propTypes, targetProp) => {
+export const getContextualizer = (propTypes: Object, targetProp: string) => {
   class ContextProps extends Component {
     getChildContext () {
       const props = Object.keys(this.props).reduce((x, key) => {
@@ -28,19 +30,12 @@ export const getContextualizer = (propTypes, targetProp) => {
   return ContextProps
 }
 
-export const withPropsFromContext = propList => Target => {
+export const withPropsFromContext = (propList : Array<string>) => Target => {
   class WithPropsFromContext extends Component {
+    props:Object;
     render () {
-      const props = {
-        ...propList.reduce((x, prop) => {
-          x[prop] = this.context[prop]
-
-          return x
-        }, {}),
-        ...this.props
-      }
-
-      return <Target {...props} />
+      const contextProps = propList.reduce((prev, cur) => (prev[cur] = this.context[cur]), {})
+      return <Target {...this.props} {...contextProps} />
     }
   }
 
