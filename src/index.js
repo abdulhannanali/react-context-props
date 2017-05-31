@@ -49,7 +49,9 @@ export const withPropsFromContext = propList => Target => {
     return x
   }, {})
 
-  WithPropsFromContext.displayName = Target.displayName || Target.name
+  WithPropsFromContext.displayName = (
+    `${WithPropsFromContext.name}(${Target.name || Target.displayName})`
+  )
 
   return WithPropsFromContext
 }
